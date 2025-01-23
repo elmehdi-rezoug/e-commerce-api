@@ -7,7 +7,7 @@ export async function getOrders(req, res) {
       .populate("products");
     res.status(200).json(orders);
   } catch (error) {
-    res.status(500).json({ error : error.message });
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -18,18 +18,22 @@ export async function getOrderById(req, res) {
       .populate("products");
     res.status(200).json(order);
   } catch (error) {
-    res.status(500).json({ error : error.message });
+    res.status(500).json({ error: error.message });
   }
 }
 
 export async function postOrder(req, res) {
   try {
-    const tempObject ={
+    const tempObject = {
       carts: req.body.carts,
       userId: req.body.userId
     };
     req.body = tempObject;
-    const carts = await Promise.all(req.body.carts.map(cartId => CartModel.findById(cartId)));
+    const carts = await CartModel.find({ _id: { $in: req.body.carts } });
+    if (carts.length !== req.body.carts.length) {
+      return res.status(404).json({ message: "One or more carts not found." });
+    }
+
     req.body.products = [];
     req.body.totalPrice = 0;
     carts.forEach(cart => {
@@ -39,19 +43,23 @@ export async function postOrder(req, res) {
     const order = await OrderModel.create(req.body);
     res.status(201).json(order);
   } catch (error) {
-    res.status(500).json({ error : error.message });
+    res.status(500).json({ error: error.message });
   }
 }
 
 export async function updateOrder(req, res) {
   try {
-    const tempObject ={
+    const tempObject = {
       carts: req.body.carts,
-      paymentStatus: req.body.paymentStatus,
       userId: req.body.userId
     };
     req.body = tempObject;
-    const carts = await Promise.all(req.body.carts.map(cartId => CartModel.findById(cartId)));
+    const carts = await CartModel.find({ _id: { $in: req.body.carts } });
+    if (carts.length !== req.body.carts.length) {
+      return res.status(404).json({ message: "One or more carts not found." });
+    }
+
+
     req.body.products = [];
     req.body.totalPrice = 0;
     carts.forEach(cart => {
@@ -59,11 +67,11 @@ export async function updateOrder(req, res) {
       req.body.totalPrice += cart.totalPrice;
     });
     const order = await OrderModel.findByIdAndUpdate(req.params.id, req.body, {
-      new: true, runValidators:true
+      new: true, runValidators: true
     });
     res.status(200).json(order);
   } catch (error) {
-    res.status(500).json({ error : error.message });
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -72,6 +80,6 @@ export async function deleteOrder(req, res) {
     const order = await OrderModel.findByIdAndDelete(req.params.id);
     res.status(200).json(order);
   } catch (error) {
-    res.status(500).json({ error : error.message });
+    res.status(500).json({ error: error.message });
   }
 }

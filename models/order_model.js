@@ -20,36 +20,28 @@ const orderSchema = mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
     required: [true, "order must have a user"],
-    validate:{
-              validator: async (userId) => {
-                if (!mongoose.Types.ObjectId.isValid(userId)) return false;
-                const user = await UserModel.findById(userId);
-                return !!user;
-            },
-              message: "user not found, provide a valid user."
-            }
+    validate: {
+      validator: async (userId) => {
+        if (!mongoose.Types.ObjectId.isValid(userId)) return false;
+        const user = await UserModel.findById(userId);
+        return !!user;
+      },
+      message: "user not found, provide a valid user."
+    }
   },
   // Array of references to Product model
   products: [
     {
       type: mongoose.Types.ObjectId,
       ref: "Product",
-      required: [true, "must provide at least one product"],
-      validate:{
-        validator: async (productIds) => {
-            if (!Array.isArray(productIds) || productIds.length === 0) return false;
-        
-            const results = await Promise.all(
-              productIds.map(async (id) => {
-                    if (!mongoose.Types.ObjectId.isValid(id)) return null;
-                    return await ProductModel.findById(id);
-                })
-            );
-        
-            return results.every((item) => item !== null);
+      validate: {
+        validator: async (productId) => {
+          if (!mongoose.Types.ObjectId.isValid(productId)) return false;
+          const product = await ProductModel.findById(productId);
+          return !!product;
         },
-        message: "one or more products not found"
-      }
+        message: "One or more products are invalid or not found."
+      },
     },
   ],
   carts: [
@@ -58,15 +50,10 @@ const orderSchema = mongoose.Schema({
       ref: "Cart",
       required: [true, "must provide at least one cart"],
       validate: {
-        validator: async (cartIds) => {
-          if (!Array.isArray(cartIds) || cartIds.length === 0) return false;
-          const results = await Promise.all(
-            cartIds.map(async (id) => {
-              if (!mongoose.Types.ObjectId.isValid(id)) return null;
-              return await CartModel.findById(id);
-            })
-          );
-          return results.every((item) => item !== null);
+        validator: async (cartId) => {
+          if (!mongoose.Types.ObjectId.isValid(cartId)) return false;
+          const cart = await CartModel.findById(cartId);
+          return !!cart;
         },
         message: "one or more carts not found"
       }
