@@ -1,6 +1,6 @@
 // Import mongoose package
 import mongoose from "mongoose";
-import { userIdChecker } from "../utils/checkers";
+import { userIdChecker } from "../utils/checkers.js";
 
 
 // Define message schema with content and user reference
