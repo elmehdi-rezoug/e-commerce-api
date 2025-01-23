@@ -2,7 +2,7 @@ import UserModel from "../models/user_model.js";
 import ProductModel from "../models/product_model.js";
 import CartModel from "../models/cart_model.js";
 import mongoose from "mongoose";
-
+import validator from "validator";
 // Helper function for ID validation and existence check
 const validateIds = async (ids, Model) => {
     if (!Array.isArray(ids) || ids.length === 0) return false;
@@ -29,3 +29,13 @@ export const productIdChecker = (productIds) => validateIds(productIds, ProductM
 
 // Check if cart IDs are valid and exist
 export const cartIdChecker = (cartIds) => validateIds(cartIds, CartModel);
+export const passwordChecker = (password) => {
+    const isStrongPass = validator.isStrongPassword(password, {
+        minLength: 8, // Minimum password length
+        minUppercase: 1, // Require at least one uppercase letter
+        minSymbols: 1,// Require at least one symbol
+        minNumbers: 0,
+        minLowercase: 0
+    });
+    return isStrongPass;
+};

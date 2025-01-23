@@ -17,17 +17,6 @@ const adminSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "must provide a password"],
-    // Password must be 8+ chars with 1 uppercase and 1 symbol
-    validate: {
-      validator: function (value) {
-        return validator.isStrongPassword(value, {
-          minLength: 8,
-          minUppercase: 1,
-          minSymbols: 1,
-        });
-      },
-      message: "invalid password",
-    },
   },
 });
 

@@ -18,16 +18,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "password is required"], // Ensure password is provided
-    validate: {
-      validator: function (value) {
-        return validator.isStrongPassword(value, {
-          minLength: 8, // Minimum password length
-          minUppercase: 1, // Require at least one uppercase letter
-          minSymbols: 1, // Require at least one symbol
-        });
-      },
-      message: "invalid password", // Error message for invalid password
-    },
   },
 });
 

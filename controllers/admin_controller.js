@@ -1,6 +1,7 @@
 import AdminModel from "../models/admin_model.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/jwt.js";
+import { passwordChecker } from "../utils/checkers.js";
 
 export async function getAdmins(req, res) {
   try {
@@ -22,6 +23,8 @@ export async function getAdminById(req, res) {
 
 export async function postAdmin(req, res) {
   try {
+    const isStrongPass = passwordChecker(req.body.password);
+    if (!isStrongPass) return res.status(400).json({ message: req.body.password + " is an invalid password" });
     let admin = req.body;
     const salt = await bcrypt.genSalt();
     admin.password = await bcrypt.hash(admin.password, salt);
@@ -34,6 +37,8 @@ export async function postAdmin(req, res) {
 
 export async function updateAdmin(req, res) {
   try {
+    const isStrongPass = passwordChecker(req.body.password);
+    if (!isStrongPass) return res.status(400).json({ message: req.body.password + " is an invalid password" });
     const admin = await AdminModel.findByIdAndUpdate(req.params.id, req.body, {
       new: true, runValidators:true
     });

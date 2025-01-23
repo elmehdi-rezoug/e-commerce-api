@@ -1,6 +1,7 @@
 import UserModel from "../models/user_model.js";
 import bcrypt from "bcrypt";
 import { generateToken } from "../utils/jwt.js";
+import { passwordChecker } from "../utils/checkers.js";
 
 export async function getUsers(req, res) {
   try {
@@ -22,6 +23,8 @@ export async function getUserById(req, res) {
 
 export async function postUser(req, res) {
   try {
+    const isStrongPass = passwordChecker(req.body.password);
+    if (!isStrongPass) return res.status(400).json({ message: req.body.password + " is an invalid password" });
     let user = req.body;
     const salt = await bcrypt.genSalt();
     user.password = await bcrypt.hash(user.password, salt);
@@ -34,6 +37,8 @@ export async function postUser(req, res) {
 
 export async function updateUser(req, res) {
   try {
+    const isStrongPass = passwordChecker(req.body.password);
+    if (!isStrongPass) return res.status(400).json({ message: req.body.password + " is an invalid password" });
     const user = await UserModel.findByIdAndUpdate(req.params.id, req.body, {
       new: true, runValidators:true
     });

@@ -1,6 +1,6 @@
 // Import mongoose package
 import mongoose from "mongoose";
-import { userIdChecker } from "../utils/checkers.js";
+import UserModel from "./user_model.js";
 
 
 // Define message schema with content and user reference
@@ -16,11 +16,13 @@ const messageSchema = mongoose.Schema({
     ref: "User",
     required: [true, "message must have a user"],
     validate:{
-          validator: async (userId) => {
-            return await userIdChecker(userId)
-          },
-          message: "user not found, provide a valid user."
-        }
+              validator: async (userId) => {
+                if (!mongoose.Types.ObjectId.isValid(userId)) return false;
+                const user = await UserModel.findById(userId);
+                return !!user;
+            },
+              message: "user not found, provide a valid user."
+            }
   },
 });
 

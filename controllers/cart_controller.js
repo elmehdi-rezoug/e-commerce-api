@@ -24,26 +24,15 @@ export async function getCartById(req, res) {
 
 export async function postCart(req, res) {
   try {
-    req.body.totalPrice = 0;
-    
-    // Fetch all products in parallel
-    const products = await Promise.all(req.body.products.map(productId => ProductModel.findById(productId)));
-
-    // Calculate the total price
-    for (const product of products) {
-      if (product) {
-        req.body.totalPrice += product.price;
-      } else {
-        return res.status(404).json({ message: "a product is not found!" }); // 404 for not found
-      }
+    const products = await ProductModel.find({ _id: { $in: req.body.products } });
+    if (products.length !== req.body.products.length) {
+      return res.status(404).json({ message: "One or more products not found." });
     }
 
-    // Create the cart and respond with the created cart
-    const cart = await CartModel.create(req.body);
-    res.status(201).json(cart);
-
+    const totalPrice = products.reduce((sum, product) => sum + product.price, 0);
+    const newCart = await CartModel.create({ ...req.body, totalPrice });
+    res.status(201).json(newCart);
   } catch (error) {
-    console.error(error); // Optional: log error for debugging purposes
     res.status(500).json({ error: error.message });
   }
 }
@@ -51,20 +40,13 @@ export async function postCart(req, res) {
 
 export async function updateCart(req, res) {
   try {
-    req.body.totalPrice = 0;
-    
-    // Fetch all products in parallel
-    const products = await Promise.all(req.body.products.map(productId => ProductModel.findById(productId)));
-
-    // Calculate the total price
-    for (const product of products) {
-      if (product) {
-        req.body.totalPrice += product.price;
-      } else {
-        return res.status(404).json({ message: "a product is not found!" }); // 404 for not found
-      }
+    const products = await ProductModel.find({ _id: { $in: req.body.products } });
+    if (products.length !== req.body.products.length) {
+      return res.status(404).json({ message: "One or more products not found." });
     }
-    const cart = await CartModel.findByIdAndUpdate(req.params.id, req.body, {
+
+    const totalPrice = products.reduce((sum, product) => sum + product.price, 0);
+    const cart = await CartModel.findByIdAndUpdate(req.params.id, {...req.body, totalPrice}, {
       new: true, runValidators: true
     });
 
