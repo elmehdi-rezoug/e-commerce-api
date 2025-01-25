@@ -1,3 +1,8 @@
+## Project Link
+
+For the live version of the API, you can visit the deployed project on Railway:  
+**Live API URL**: [https://e-commerce-api-production-3318.up.railway.app](https://e-commerce-api-production-3318.up.railway.app)
+
 # E-commerce API
 
 A comprehensive, production-ready RESTful API built with Node.js and Express.js for powering modern e-commerce platforms. This backend service provides a complete suite of features for managing users, products, shopping carts, orders, and customer communications.
