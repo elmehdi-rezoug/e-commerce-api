@@ -121,8 +121,8 @@ This API serves as a robust backend infrastructure for e-commerce applications, 
 ## API Endpoints
 
 ### Authentication
-- POST `/api/users/login` - User login
-- POST `/api/admins/login` - Admin login
+- POST `/api/users/login` - User login (Anyone)
+- POST `/api/admins/login` - Admin login (Anyone)
 
 ### Users
 - GET `/api/users` - Get all users (Admin only)
@@ -134,7 +134,7 @@ This API serves as a robust backend infrastructure for e-commerce applications, 
 ### Admins
 - GET `/api/admins` - Get all admins (Admin only)
 - GET `/api/admins/:id` - Get admin by ID (Admin only)
-- POST `/api/admins` - Register new admin
+- POST `/api/admins` - Register new admin (Anyone)
 - PATCH `/api/admins/:id` - Update admin (Admin only)
 - DELETE `/api/admins/:id` - Delete admin (Admin only)
 
