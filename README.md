@@ -9,9 +9,11 @@ A comprehensive, production-ready RESTful API built with Node.js and Express.js 
 - LinkedIn: [elmehdi-rezoug](https://www.linkedin.com/in/elmehdi-rezoug)
 - Email: elmehdirezoug100@gmail.com
 
-## Deployment
+## Deployment 
 
-[![API URL](https://railway.app/button.svg)](https://e-commerce-api-production-3318.up.railway.app)
+You can make requests to the API through:
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://e-commerce-api-production-3318.up.railway.app)
 
 ## Overview
 
