@@ -15,6 +15,7 @@ You can make requests to the API through:
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://e-commerce-api-production-3318.up.railway.app)
 
+https://e-commerce-api-production-3318.up.railway.app
 ## Overview
 
 This API serves as a robust backend infrastructure for e-commerce applications, implementing industry best practices and modern security standards. It's designed to handle everything from user authentication to order processing, with careful attention to data validation, error handling, and secure operations.
