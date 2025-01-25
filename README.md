@@ -15,7 +15,7 @@ You can make requests to the API ednpoints through:
  
 https://e-commerce-api-production-3318.up.railway.app
 
-[![Deployed on Railway](https://railway.app/button.svg)](https://e-commerce-api-production-3318.up.railway.app)
+[![Deploy on Railway](https://railway.app/button.svg)](https://e-commerce-api-production-3318.up.railway.app)
 
 ## Overview
 
