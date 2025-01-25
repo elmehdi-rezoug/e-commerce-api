@@ -112,6 +112,7 @@ This API serves as a robust backend infrastructure for e-commerce applications, 
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.4",
     "morgan": "^1.10.0",
+    "nodemon": "^3.1.9",
     "validator": "^13.12.0"
   }
 }
