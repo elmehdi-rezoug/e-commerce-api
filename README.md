@@ -11,7 +11,8 @@ A comprehensive, production-ready RESTful API built with Node.js and Express.js 
 
 ## Deployment 
 
-You can make requests to the API through: 
+You can make requests to the API ednpoints through: 
+https://e-commerce-api-production-3318.up.railway.app
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://e-commerce-api-production-3318.up.railway.app)
 
